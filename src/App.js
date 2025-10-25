@@ -14,11 +14,9 @@ class App {
 
     try {
       validateCarNames(carNames); // 자동차 이름 검증 실행
-      validateRaceCount(raceCount); // 시행 횟수 검증 실행
+      validateRaceCount(Number(raceCount)); // 시행 횟수 검증 실행
 
-      const raceResult = runCarRace(carNames, raceCount); // 입력 검증이 된 이후에 경주 로직 실행
-
-      MissionUtils.Console.print(`최종 우승자 : ${raceResult.join(", ")}`); // 우승자 배열을 (, )으로 구분하도록
+      runCarRace(carNames, Number(raceCount)); // 입력 검증이 된 이후에 경주 로직 실행
     } catch (error) {
       // 검증 실패 및 실행 중 오류 발생 시 테스트 코드에서 예외 감지 가능하도록 다시 던짐
       MissionUtils.Console.print(error.message);
