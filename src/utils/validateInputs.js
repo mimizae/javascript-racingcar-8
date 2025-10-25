@@ -5,7 +5,7 @@ export function validateCarNames(carNames = "") {
   if (!carNames.includes(",")) {
     throw new Error("[ERROR]: 둘 이상의 자동차 이름을 입력해 주세요.");
   }
-  const carName = carNames.split(",");
+  const carName = carNames.split(",").map((name) => name.trim()); // trim으로 문자열 앞 뒤 공백 제거
 
   // some => 해당 배열의 요소들에 대해 콜백함수 실행 후, 결괏값이 하나라도 true라면 true 반환. (every와 반대)
   if (carName.some((carName) => carName.trim() === "")) {
@@ -21,5 +21,11 @@ export function validateCarNames(carNames = "") {
     throw new Error(
       "[ERROR]: 특수문자와 공백은 자동차의 이름에 포함 될 수 없습니다."
     );
+  }
+
+  // Set 객체를 사용해 자동차 이름 중복 확인
+  const uniqueNames = new Set(carName);
+  if (uniqueNames.size !== carName.length) {
+    throw new Error("[ERROR]: 자동차 이름은 중복될 수 없습니다.");
   }
 }
