@@ -13,10 +13,10 @@ class App {
     );
 
     try {
-      validateCarNames(carNames); // 자동차 이름 검증 실행
+      const carNameList = validateCarNames(carNames); // 자동차 이름 검증 실행 후, 이름 배열로 반환
       validateRaceCount(Number(raceCount)); // 시행 횟수 검증 실행
 
-      runCarRace(carNames, Number(raceCount)); // 입력 검증이 된 이후에 경주 로직 실행
+      runCarRace(carNameList, Number(raceCount)); // 입력 검증이 된 이후에 경주 로직 실행
     } catch (error) {
       // 검증 실패 및 실행 중 오류 발생 시 테스트 코드에서 예외 감지 가능하도록 다시 던짐
       MissionUtils.Console.print(error.message);

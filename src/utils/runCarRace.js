@@ -1,8 +1,6 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 
-export function runCarRace(carNames = "", raceCount = 0) {
-  let carNameList = carNames.split(",").map((carName) => carName.trim());
-
+export function runCarRace(carNameList = [], raceCount = 0) {
   // 차가 몇 개인지는 carNameList.length로 알 수 있음
   // 각 자동차 별 차수 동안 진행된 전진 횟수를 저장할 공간 필요. 초기화는 0
   const progress = {};
