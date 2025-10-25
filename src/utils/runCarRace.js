@@ -1,3 +1,5 @@
+import { MissionUtils } from "@woowacourse/mission-utils";
+
 export function runCarRace(carNames = "", raceCount = 0) {
   let carNameList = carNames.split(",").map((carName) => carName.trim());
 
