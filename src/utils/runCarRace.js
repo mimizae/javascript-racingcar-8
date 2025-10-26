@@ -1,18 +1,18 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 
-export function runCarRace(carNameList = [], raceCount = 0) {
+export function runCarRace(validatedCarNameList = [], validatedRaceCount = 0) {
   const carMoveCountMap = {};
-  carNameList.forEach((carName) => (carMoveCountMap[carName] = 0)); // 각 자동차 이름을 key로 사용해 일반 객체로 활용
+  validatedCarNameList.forEach((carName) => (carMoveCountMap[carName] = 0)); // 각 자동차 이름을 key로 사용해 일반 객체로 활용
 
   MissionUtils.Console.print("\n실행 결과\n");
 
-  for (let i = 0; i < raceCount; i++) {
-    carNameList.forEach((carName) => {
+  for (let i = 0; i < validatedRaceCount; i++) {
+    validatedCarNameList.forEach((carName) => {
       const randomNum = MissionUtils.Random.pickNumberInRange(0, 9);
       if (randomNum >= 4) carMoveCountMap[carName] += 1;
     });
 
-    carNameList.forEach((carName) => {
+    validatedCarNameList.forEach((carName) => {
       MissionUtils.Console.print(
         `${carName} : ${"-".repeat(carMoveCountMap[carName])}`
       );
@@ -27,7 +27,7 @@ export function runCarRace(carNameList = [], raceCount = 0) {
     return;
   }
 
-  const raceWinners = carNameList.filter(
+  const raceWinners = validatedCarNameList.filter(
     (carName) => carMoveCountMap[carName] === maxDistance
   );
 

@@ -1,22 +1,22 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 import { runCarRace } from "./utils/runCarRace";
-import { validateCarNames } from "./utils/validateCarNames";
-import { validateRaceCount } from "./utils/validateRaceCount";
+import { validateCarNames } from "./utils/validators/validateCarNames";
+import { validateRaceCount } from "./utils/validators/validateRaceCount";
 
 class App {
   async run() {
-    const carNames = await MissionUtils.Console.readLineAsync(
+    const rawCarNameList = await MissionUtils.Console.readLineAsync(
       "경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)"
     );
-    const raceCount = await MissionUtils.Console.readLineAsync(
+    const rawRaceCount = await MissionUtils.Console.readLineAsync(
       "시도할 횟수는 몇 회인가요?"
     );
 
     try {
-      const carNameList = validateCarNames(carNames); // 자동차 이름 검증 실행 후, 이름 배열로 반환
-      validateRaceCount(Number(raceCount)); // 시행 횟수 검증 실행
+      const validatedCarNameList = validateCarNames(rawCarNameList);
+      const validatedRaceCount = validateRaceCount(rawRaceCount);
 
-      runCarRace(carNameList, Number(raceCount)); // 입력 검증이 된 이후에 경주 로직 실행
+      runCarRace(validatedCarNameList, validatedRaceCount); // 검증이 완료된 반환 값들로 경주 로직 실행
     } catch (error) {
       // 검증 실패 및 실행 중 오류 발생 시 테스트 코드에서 예외 감지 가능하도록 다시 던짐
       MissionUtils.Console.print(error.message);
