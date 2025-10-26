@@ -23,7 +23,7 @@ export function runCarRace(carNameList = [], raceCount = 0) {
   const maxDistance = Math.max(...Object.values(carMoveCountMap));
 
   if (maxDistance === 0) {
-    MissionUtils.Console.print("결과: 우승자는 없습니다.");
+    MissionUtils.Console.print("최종 우승자 : 우승자는 없습니다.");
     return;
   }
 
