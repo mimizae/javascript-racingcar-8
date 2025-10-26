@@ -10,7 +10,7 @@ export function runCarRace(carNameList = [], raceCount = 0) {
 
   for (let i = 0; i < raceCount; i++) {
     carNameList.forEach((carName) => {
-      const randomNum = Math.floor(Math.random() * 10);
+      const randomNum = MissionUtils.Random.pickNumberInRange(0, 9);
       if (randomNum >= 4) progress[carName] += 1;
     });
 
