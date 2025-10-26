@@ -25,24 +25,158 @@ const getLogSpy = () => {
 };
 
 describe("자동차 경주", () => {
-  test("기능 테스트", async () => {
-    // given
-    const MOVING_FORWARD = 4;
-    const STOP = 3;
-    const inputs = ["pobi,woni", "1"];
-    const logs = ["pobi : -", "woni : ", "최종 우승자 : pobi"];
-    const logSpy = getLogSpy();
+  describe("실제 경주 예제 테스트", () => {
+    test("기능 테스트", async () => {
+      // given
+      const MOVING_FORWARD = 4;
+      const STOP = 3;
+      const inputs = ["pobi,woni", "1"];
+      const logs = ["pobi : -", "woni : ", "최종 우승자 : pobi"];
+      const logSpy = getLogSpy();
 
-    mockQuestions(inputs);
-    mockRandoms([MOVING_FORWARD, STOP]);
+      mockQuestions(inputs);
+      mockRandoms([MOVING_FORWARD, STOP]);
 
-    // when
-    const app = new App();
-    await app.run();
+      // when
+      const app = new App();
+      await app.run();
 
-    // then
-    logs.forEach((log) => {
-      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+      // then
+      logs.forEach((log) => {
+        expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+      });
+    });
+    test("2회 시도 후, 공동 우승자를 정확히 출력.", async () => {
+      const MOVING_FORWARD = 4;
+      const STOP = 3;
+
+      const inputs = ["pobi,woni", "2"];
+
+      const randoms = [MOVING_FORWARD, STOP, STOP, MOVING_FORWARD];
+
+      const logs = [
+        "pobi : -",
+        "woni : ",
+        "pobi : -",
+        "woni : -",
+        "최종 우승자 : pobi, woni",
+      ];
+      const logSpy = getLogSpy();
+
+      mockQuestions(inputs);
+      mockRandoms(randoms);
+
+      // when
+      const app = new App();
+      await app.run();
+
+      // then
+      logs.forEach((log) => {
+        expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+      });
+    });
+
+    test("3회 시도 후, 한 명의 우승자를 정확히 출력.", async () => {
+      const MOVING_FORWARD = 4;
+      const STOP = 3;
+      const inputs = ["car1,car2", "3"];
+
+      const randoms = [
+        MOVING_FORWARD,
+        STOP,
+        MOVING_FORWARD,
+        STOP,
+        MOVING_FORWARD,
+        STOP,
+      ];
+
+      const logs = [
+        "car1 : -",
+        "car2 : ",
+        "car1 : --",
+        "car2 : ",
+        "car1 : ---",
+        "car2 : ",
+        "최종 우승자 : car1",
+      ];
+      const logSpy = getLogSpy();
+
+      mockQuestions(inputs);
+      mockRandoms(randoms);
+
+      // when
+      const app = new App();
+      await app.run();
+
+      // then
+      logs.forEach((log) => {
+        expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+      });
+    });
+
+    test("1회 시도 후, 전원 전진하지 않았을 경우 우승자가 없음을 출력.", async () => {
+      const STOP = 3;
+
+      const inputs = ["a,b,c", "1"];
+
+      const randoms = [STOP, STOP, STOP];
+
+      const logs = ["a : ", "b : ", "c : ", "최종 우승자 : 우승자는 없습니다."];
+
+      const expectedResultLog = "최종 우승자 : 우승자는 없습니다.";
+
+      const logSpy = getLogSpy();
+
+      mockQuestions(inputs);
+      mockRandoms(randoms);
+
+      // when
+      const app = new App();
+      await app.run();
+
+      // then
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining(expectedResultLog)
+      );
+    });
+
+    test("자동차 3대, 2회 시도 후 복합 결과를 정확히 출력.", async () => {
+      const MOVING_FORWARD = 4;
+      const STOP = 3;
+
+      const inputs = ["a,b,c", "2"];
+
+      const randoms = [
+        MOVING_FORWARD,
+        STOP,
+        MOVING_FORWARD + 1,
+        STOP - 1,
+        MOVING_FORWARD,
+        MOVING_FORWARD + 2,
+      ];
+
+      const logs = [
+        "a : -",
+        "b : ",
+        "c : -",
+        "a : -",
+        "b : -",
+        "c : --",
+        "최종 우승자 : c",
+      ];
+      const logSpy = getLogSpy();
+
+      mockQuestions(inputs);
+      mockRandoms(randoms);
+
+      // when
+      const app = new App();
+      await app.run();
+
+      // then
+      logs.forEach((log) => {
+        expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+      });
     });
   });
 
