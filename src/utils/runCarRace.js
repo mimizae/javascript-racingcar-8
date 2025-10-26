@@ -1,38 +1,35 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 
 export function runCarRace(carNameList = [], raceCount = 0) {
-  // 차가 몇 개인지는 carNameList.length로 알 수 있음
-  // 각 자동차 별 차수 동안 진행된 전진 횟수를 저장할 공간 필요. 초기화는 0
-  const progress = {};
-  carNameList.forEach((carName) => (progress[carName] = 0)); // 자동차 이름 그대로를 key로 사용
+  const carMoveCountMap = {};
+  carNameList.forEach((carName) => (carMoveCountMap[carName] = 0)); // 각 자동차 이름을 key로 사용해 일반 객체로 활용
 
   MissionUtils.Console.print("\n실행 결과\n");
 
   for (let i = 0; i < raceCount; i++) {
     carNameList.forEach((carName) => {
       const randomNum = MissionUtils.Random.pickNumberInRange(0, 9);
-      if (randomNum >= 4) progress[carName] += 1;
+      if (randomNum >= 4) carMoveCountMap[carName] += 1;
     });
 
-    // 진행 상황 출력
-    carNameList.forEach((name) => {
-      MissionUtils.Console.print(`${name} : ${"-".repeat(progress[name])}`);
+    carNameList.forEach((carName) => {
+      MissionUtils.Console.print(
+        `${carName} : ${"-".repeat(carMoveCountMap[carName])}`
+      );
     });
-    MissionUtils.Console.print(""); // 출력마다 줄 바꿈
+    MissionUtils.Console.print("");
   }
-  const maxProgress = Math.max(...Object.values(progress)); // 최대 전진 횟수
 
-  // 모든 자동차가 0칸이라면 우승자 없음.
-  if (maxProgress === 0) {
+  const maxDistance = Math.max(...Object.values(carMoveCountMap));
+
+  if (maxDistance === 0) {
     MissionUtils.Console.print("결과: 우승자는 없습니다.");
     return;
   }
 
-  // 최대 전진 거리와 같은 자동차 모두 추출
-  const winners = carNameList.filter(
-    (carName) => progress[carName] === maxProgress
+  const raceWinners = carNameList.filter(
+    (carName) => carMoveCountMap[carName] === maxDistance
   );
 
-  // 우승자 출력
-  MissionUtils.Console.print(`최종 우승자 : ${winners.join(", ")}`);
+  MissionUtils.Console.print(`최종 우승자 : ${raceWinners.join(", ")}`);
 }

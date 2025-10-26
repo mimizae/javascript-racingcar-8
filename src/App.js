@@ -1,6 +1,6 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 import { runCarRace } from "./utils/runCarRace";
-import { validateCarNames } from "./utils/validateInputs";
+import { validateCarNames } from "./utils/validateCarNames";
 import { validateRaceCount } from "./utils/validateRaceCount";
 
 class App {
