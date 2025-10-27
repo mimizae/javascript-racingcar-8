@@ -1,19 +1,5 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 
-export function runCarRace(validatedCarNameList = [], validatedRaceCount = 0) {
-  const carMoveCountMap = initializeCarMoveCount(validatedCarNameList);
-
-  MissionUtils.Console.print("\n실행 결과\n");
-
-  for (let i = 0; i < validatedRaceCount; i++) {
-    playRace(validatedCarNameList, carMoveCountMap);
-    printRaceResult(validatedCarNameList, carMoveCountMap);
-  }
-
-  const raceWinners = determineRaceWinners(carMoveCountMap);
-  printRaceWinners(raceWinners);
-}
-
 // 자동차별 전진 거리 초기화
 function initializeCarMoveCount(validatedCarNameList) {
   const carMoveCountMap = {};
@@ -56,4 +42,18 @@ function printRaceWinners(raceWinners) {
   } else {
     MissionUtils.Console.print(`최종 우승자 : ${raceWinners.join(", ")}`);
   }
+}
+
+export function runCarRace(validatedCarNameList = [], validatedRaceCount = 0) {
+  const carMoveCountMap = initializeCarMoveCount(validatedCarNameList);
+
+  MissionUtils.Console.print("\n실행 결과\n");
+
+  for (let i = 0; i < validatedRaceCount; i++) {
+    playRace(validatedCarNameList, carMoveCountMap);
+    printRaceResult(validatedCarNameList, carMoveCountMap);
+  }
+
+  const raceWinners = determineRaceWinners(carMoveCountMap);
+  printRaceWinners(raceWinners);
 }
